@@ -32,7 +32,7 @@ class Linklist(object):
             node.next = new_node
         return
 
-    def delete(self):
+    def delete(self, position=None):
         pass
 
     def iter(self):
