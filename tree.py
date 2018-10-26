@@ -153,28 +153,42 @@ class BsTree(object):
 
         return data
 
-    def inline_traversal(self, node=None):
-        pass
+    def inline_traversal(self):
+        stack = []
+        result = []
+        node = self.root
+        stack.append(node)
+        while stack:
+            node = stack.pop(0)
+            result.append(node.value)
+            if node.left:
+                stack.append(node.left)
+            if node.right:
+                stack.append(node.right)
+
+        return result
 
 
 if __name__ == "__main__":
     new_tree = BsTree(10)
-    #       10
-    #    4      17
-    #  2   5  15  20
-    new_tree.insert(4)
-    new_tree.insert(17)
-    new_tree.insert(2)
-    new_tree.insert(5)
-    new_tree.insert(15)
-    new_tree.insert(20)
-    new_tree.insert(4)
+    #
+    #           10
+    #     4              17
+    #  2     6       13      20
+    # 1 3   5 8    12  15  18  22
+    #
+    new_tree.insert(4), new_tree.insert(17)
+    new_tree.insert(2), new_tree.insert(6), new_tree.insert(13), new_tree.insert(20)
+    new_tree.insert(1), new_tree.insert(3), new_tree.insert(5), new_tree.insert(8)
+    new_tree.insert(12), new_tree.insert(15), new_tree.insert(18), new_tree.insert(22)
 
     node, arr = new_tree.search(2)
     print(arr)
+
     print("in", new_tree.in_traversal())
     print("pre:", new_tree.pre_traversal())
     print("post:", new_tree.post_traversal())
-    new_tree.delete(15)
-    new_tree.delete(10)
-    print("in", new_tree.in_traversal())
+    print("inline:", new_tree.inline_traversal())
+    # new_tree.delete(15)
+    # new_tree.delete(10)
+    # print("in", new_tree.in_traversal())
