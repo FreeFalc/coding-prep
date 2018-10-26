@@ -1,53 +1,53 @@
 
-def bubble_sort(array):
-    len_arr = len(array)-1
+def bubble_sort(arr):
+    len_arr = len(arr) - 1
     while len_arr > 0:
         i = 0
         while i+1 <= len_arr:
-            if array[i] > array[i+1]:
-                array[i], array[i+1] = array[i+1], array[i]
+            if arr[i] > arr[i + 1]:
+                arr[i], arr[i + 1] = arr[i + 1], arr[i]
             i += 1
         len_arr -= 1
-    return array
+    return arr
 
 
-def insert_sort(array):
-    for i in range(1, len(array)):
-        insertion = array[i]
+def insert_sort(arr):
+    for i in range(1, len(arr)):
+        insertion = arr[i]
         j = i-1
-        while array[j] > insertion and j >= 0:
-            array[j+1] = array[j]
+        while arr[j] > insertion and j >= 0:
+            arr[j + 1] = arr[j]
             j = j - 1
-        array[j+1] = insertion
-    return array
+        arr[j + 1] = insertion
+    return arr
 
 
-def selection_sort(array):
-    len_arr = len(array)-1
+def selection_sort(arr):
+    len_arr = len(arr) - 1
     for i in range(len_arr):
-        curr_min = array[i]
+        curr_min = arr[i]
         curr_pos = i
         j = i+1
         while j <= len_arr:
-            if array[j] < curr_min:
-                curr_min = array[j]
+            if arr[j] < curr_min:
+                curr_min = arr[j]
                 curr_pos = j
             j += 1
         if curr_pos != i:
-            array[i], array[curr_pos] = array[curr_pos], array[i]
-    return array
+            arr[i], arr[curr_pos] = arr[curr_pos], arr[i]
+    return arr
 
 
 def quick_sort(arr, start=0, end=None):
     if not end:
         end = len(arr) - 1
     if start < end:
-        divider = partit(arr, start, end)
+        divider = partitioning(arr, start, end)
         quick_sort(arr, start, divider - 1)
         quick_sort(arr, divider + 1, end)
 
 
-def partit(arr, start, end):
+def partitioning(arr, start, end):
     pivot = arr[end]
     i = start
     j = end-1
