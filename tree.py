@@ -31,7 +31,7 @@ class BsTree(object):
             else:
                 print("Insertion error")
 
-    def search(self, value, curr_node=None, path=None):
+    def search(self, value, curr_node=None, path=None, show=False):
         if not path:
             path = []
 
@@ -39,19 +39,22 @@ class BsTree(object):
             curr_node = self.root
 
         if value == curr_node.value:
-            path.append(curr_node.value)
-            return curr_node, path
+            result = {'status': 'True', 'node': curr_node}
+            if show:
+                path.append(curr_node.value)
+                result['path'] = path
+            return result
 
         elif curr_node.left and value < curr_node.value:
             path.append(curr_node.value)
-            return self.search(value, curr_node.left, path)
+            return self.search(value, curr_node.left, path, show)
 
         elif curr_node.right and value > curr_node.value:
             path.append(curr_node.value)
-            return self.search(value, curr_node.right, path)
+            return self.search(value, curr_node.right, path, show)
 
         else:
-            return None, None
+            return {'result': False, 'node': None}
 
     def delete(self, value, curr_node=None):
         is_root = False
@@ -67,7 +70,7 @@ class BsTree(object):
                 new_node = None
 
             else:
-                new_node = self.find_sucs(curr_node)
+                new_node = self.find_successor(curr_node)
                 new_node.left = curr_node.left
                 new_node.right = curr_node.right
 
@@ -88,7 +91,7 @@ class BsTree(object):
 
         return False, None
 
-    def find_sucs(self, node):
+    def find_successor(self, node):
         prev_node = node
         next_node = node.right
         while next_node.left:
@@ -182,8 +185,8 @@ if __name__ == "__main__":
     new_tree.insert(1), new_tree.insert(3), new_tree.insert(5), new_tree.insert(8)
     new_tree.insert(12), new_tree.insert(15), new_tree.insert(18), new_tree.insert(22)
 
-    node, arr = new_tree.search(2)
-    print(arr)
+    print(new_tree.search(2, show=True))
+    # print(arr)
 
     print("in", new_tree.in_traversal())
     print("pre:", new_tree.pre_traversal())
