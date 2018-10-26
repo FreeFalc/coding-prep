@@ -48,8 +48,32 @@ class BsTree(object):
         else:
             return None, None
 
-    def delete(self, value):
+    def delete(self, value, node=None ):
         pass
+
+    def in_traversal(self, node):
+        data = []
+        if node:
+            data = self.in_traversal(node.left)
+            data.append(node.value)
+            data = data + self.in_traversal(node.right)
+        return data
+
+    def post_traversal(self, node):
+        data = []
+        if node:
+            data = self.post_traversal(node.left)
+            data = data + self.post_traversal(node.right)
+            data.append(node.value)
+        return data
+
+    def pre_traversal(self, node):
+        data = []
+        if node:
+            data.append(node.value)
+            data = data + self.pre_traversal(node.left)
+            data = data + self.pre_traversal(node.right)
+        return data
 
 
 if __name__ == "__main__":
@@ -70,4 +94,9 @@ if __name__ == "__main__":
 
     node, arr = new_tree.search(2)
     print(arr)
+    print("in", new_tree.in_traversal(new_tree.root))
+    print("pre:", new_tree.pre_traversal(new_tree.root))
+    print("post:", new_tree.post_traversal(new_tree.root))
+
+
 
