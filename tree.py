@@ -48,8 +48,52 @@ class BsTree(object):
         else:
             return None, None
 
-    def delete(self, value, node=None ):
-        pass
+    def delete(self, value, node=None):
+        is_root = False
+        if not node:
+            is_root = True
+            node = self.root
+        if value == node.value:
+            if not node.left or not node.right:
+                new_node = node.left or node.right
+            elif not node.left and node.right:
+                new_node = None
+            else:
+                new_node = self.find_sucs(node)
+                print("suc:", new_node.value)
+                new_node.left = node.left
+                new_node.right = node.right
+            if is_root:
+
+                self.root = new_node
+            return True, new_node
+        elif value < node.value:
+            result, new_node = self.delete(value, node.left)
+            if result:
+                node.left = new_node
+        else:
+            result, new_node = self.delete(value, node.right)
+            if result:
+                node.right = new_node
+        return False, None
+
+    def find_sucs(self, node):
+        prev_node = node
+        next_node = node.right
+        while next_node.left:
+            prev_node = next_node
+            next_node = next_node.left
+        if next_node.right:
+            if prev_node != node:
+                prev_node.left = next_node.right
+            else:
+                prev_node.right = next_node.right
+        else:
+            if prev_node == node:
+                prev_node.right = None
+            else:
+                prev_node.left = None
+        return next_node
 
     def in_traversal(self, node=None):
         data = []
@@ -84,6 +128,9 @@ class BsTree(object):
             data = data + self.pre_traversal(node.right)
         return data
 
+    def inline_traversal(self, node=None):
+        pass
+
 
 if __name__ == "__main__":
     new_tree = BsTree(10)
@@ -103,4 +150,6 @@ if __name__ == "__main__":
     print("in", new_tree.in_traversal())
     print("pre:", new_tree.pre_traversal())
     print("post:", new_tree.post_traversal())
-
+    new_tree.delete(15)
+    new_tree.delete(10)
+    print("in", new_tree.in_traversal())
