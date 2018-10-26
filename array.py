@@ -38,11 +38,35 @@ def selection_sort(array):
     return array
 
 
-def quick_sort(array):
-    pass
+def quick_sort(arr, start=0, end=None):
+    if not end:
+        end = len(arr) - 1
+    if start < end:
+        divider = partit(arr, start, end)
+        quick_sort(arr, start, divider - 1)
+        quick_sort(arr, divider + 1, end)
+
+
+def partit(arr, start, end):
+    pivot = arr[end]
+    i = start
+    j = end-1
+    while i <= j:
+        if arr[i] <= pivot:
+            i += 1
+        else:
+            if arr[j] > pivot:
+                j -= 1
+            else:
+                arr[i], arr[j] = arr[j], arr[i]
+    arr[i], arr[end] = arr[end], arr[i]
+    return i
 
 
 if __name__ == "__main__":
     print(bubble_sort([7, 5, 4, 3, 2, 1, 0]))
     print(selection_sort([7, 5, 4, 3, 2, 1, 0]))
     print(insert_sort([1, 5, 2, 3, 4, 6, 0]))
+    array = [2, 6, 3, 7, 8, 5, 7, 9, 4, 1, 0]
+    quick_sort(array)
+    print(array)
