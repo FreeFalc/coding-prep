@@ -51,39 +51,45 @@ class BsTree(object):
     def delete(self, value, node=None ):
         pass
 
-    def in_traversal(self, node):
+    def in_traversal(self, node=None):
         data = []
-        if node:
+        if not node:
+            node = self.root
+        if node.left:
             data = self.in_traversal(node.left)
-            data.append(node.value)
+        data.append(node.value)
+        if node.right:
             data = data + self.in_traversal(node.right)
         return data
 
-    def post_traversal(self, node):
+    def post_traversal(self, node=None):
         data = []
-        if node:
+        if not node:
+            node = self.root
+        if node.left:
             data = self.post_traversal(node.left)
+        if node.right:
             data = data + self.post_traversal(node.right)
-            data.append(node.value)
+        data.append(node.value)
         return data
 
-    def pre_traversal(self, node):
+    def pre_traversal(self, node=None):
         data = []
-        if node:
-            data.append(node.value)
+        if not node:
+            node = self.root
+        data.append(node.value)
+        if node.left:
             data = data + self.pre_traversal(node.left)
+        if node.right:
             data = data + self.pre_traversal(node.right)
         return data
 
 
 if __name__ == "__main__":
     new_tree = BsTree(10)
-    # new_tree.root.left = Node(4)
-    # new_tree.root.right = Node(17)
-    # new_tree.root.left.left = Node(2)
-    # new_tree.root.left.right = Node(5)
-    # new_tree.root.right.left = Node(15)
-    # new_tree.root.right.right = Node(20)
+    #             10
+    #          4      17
+    #        2   5  15  20
     new_tree.insert(4)
     new_tree.insert(17)
     new_tree.insert(2)
@@ -94,9 +100,7 @@ if __name__ == "__main__":
 
     node, arr = new_tree.search(2)
     print(arr)
-    print("in", new_tree.in_traversal(new_tree.root))
-    print("pre:", new_tree.pre_traversal(new_tree.root))
-    print("post:", new_tree.post_traversal(new_tree.root))
-
-
+    print("in", new_tree.in_traversal())
+    print("pre:", new_tree.pre_traversal())
+    print("post:", new_tree.post_traversal())
 
